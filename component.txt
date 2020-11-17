@@ -1,1 +1,13 @@
 vue 컴포넌트
+3번이상 반복되는 부분 찾기.
+1.세부요소
+GoalButton : 중기, 단기 목표에 쓰이는 푸른색 버튼 들 같은 디자인
+ModifyButton : 장기, 중기, 단기 목표 수정하는 버튼도 같은 디자인
+PrevButton :  prev버튼도 같은 디자인
+DotList : todolist, 장기,중기,단기,todolist수정까지 목록 나오는 부분 형식 같음
+SaveButton : 변경사항 저장버튼도 같음
+PlusButtton : +000 쓰시오 부분도 공통
+
+2.페이지기준
+MidShortTermGoalPage : 중기, 단기목표 페이지 같음
+ModifyPage : 장기,중기,단기 목표 수정페이지 같음(todolist나 todolist수정페이지는 추가된 요소이외에 같음)
