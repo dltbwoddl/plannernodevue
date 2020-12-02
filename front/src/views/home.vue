@@ -1,15 +1,15 @@
 <template>
   <div id="app">
-    <home/>
+      <longbutton/>
   </div>
 </template>
 
 <script>
-import home from './views/home'
+import longbutton from '../components/longbutton'
 export default {
   name: 'App',
   components:{
-    home
+      longbutton
   }
 
 }

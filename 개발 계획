@@ -1,0 +1,9 @@
+12 03:
+홈에 장기 목표 나오는 버튼 만들기.
+과정 : 
+1.장기 목표 mysql을 만든다.
+2.서버를 /longgoal이라는 path를 만들고 mysql과 연결한다.
+3.long button components에서 vuex의 장기 목표 데이터 가져오는 acions를 호출한다.
+4.장기목표 서버에서 데이터 가져온다.vuex actions
+5.가져온 데이터를 각각 버튼으로 만들어준ㄷ나. components/longbutton
+6.그것을 views/home에 보여주고 app에 보여준다.
