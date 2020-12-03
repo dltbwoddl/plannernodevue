@@ -1,6 +1,7 @@
 <template>
     <div>    
-        <b-button variant="primary">{{hi}}</b-button>
+        <b-button variant="primary">{{longgoal}}</b-button>
+        
     </div>
 </template>
 
@@ -9,9 +10,9 @@ export default {
     name : 'longbutton',
     data(){
         return {
-            hi:this.$store.state.count
+            longgoal : this.$store.state.longgoal
             }
-    }
+    },
 }
 </script>
 
