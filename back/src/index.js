@@ -4,7 +4,6 @@ var cors = require('cors')
 const mysql = require('mysql');
 app.use(cors())
 
-// const LongGoal = require('./DataBase/LongGoal')
 const port = 3000;
 
 const connection = mysql.createConnection({
@@ -16,15 +15,14 @@ const connection = mysql.createConnection({
 
 connection.connect();
 
-app.get('/longgoal', (err, req, res) => {
-    if(err) throw err;
-    connection.query('SELECT * FROM LongGoal', (error, data)=> {
-            if (error) throw error;
-            console.log(2);
-            console.log(Object.values(data))
-            connection.end();
-            res.send(data)
-        });
+app.get('/longgoal', (req, res) => {
+    connection.query('SELECT * FROM LongGoal', (err,data)=> {
+        // console.log(typeof(data));
+        // console.log(data[0]['longgoal_id']);
+        // console.log(data[0]['longgoal'])
+        connection.end();
+        res.json(data)
+    });
 });
 
 app.listen(port,()=>{
