@@ -12,15 +12,10 @@ const connection = mysql.createConnection({
     password: '123456',
     database: 'plannerdb'
 });
-
 connection.connect();
 
 app.get('/longgoal', (req, res) => {
     connection.query('SELECT * FROM LongGoal', (err,data)=> {
-        // console.log(typeof(data));
-        // console.log(data[0]['longgoal_id']);
-        // console.log(data[0]['longgoal'])
-        connection.end();
         res.json(data)
     });
 });
