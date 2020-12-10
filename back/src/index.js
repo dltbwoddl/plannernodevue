@@ -23,6 +23,15 @@ app.get('/longgoal', (req, res) => {
     })
 });
 
+app.get('/habit',(req,res)=>{
+    const pool_1 = new pool();
+    Promise.using(pool_1.connect(), conn => {
+        conn.queryAsync('SELECT * FROM habit').then((ret) => {
+            res.json(ret)
+        }).then(ret => { pool_1.end(); })
+    })
+})
+
 app.listen(port, () => {
     console.log('success')
 })

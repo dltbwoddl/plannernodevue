@@ -10,6 +10,7 @@ Vue.use(BootstrapVue)
 Vue.config.productionTip = false
 
 store.dispatch('getlonggoal')
+store.dispatch('gethabit')
 
 new Vue({
   router,

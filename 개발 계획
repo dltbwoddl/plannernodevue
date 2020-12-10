@@ -14,7 +14,7 @@ actions를 바로 호출하지 못나는 문제
 8.throw er; // Unhandled 'error' event문제 해결하기back index.jsaxios로 두번 호출하면 이런에러 나옴.0
 9.서버에 blue bird적용해서 장기 목표 데이터 가져오는 코드 모듈로 분리하기.0
 +Unhandled rejection Error: ER_ACCESS_DENIED_ERROR: Access denied for user ''@'localhost' (using password: NO)문제 해결
-10. mysql에 데이터 베이스 그대로 만들기.
+10.mysql에 데이터 베이스 그대로 만들기.
 11.버튼가운데 정렬하기
 12.첫페이지 나머지 요소 가져오는 components만들기.
 13.요소 데이터 가져오는 서버 url만들기.

@@ -1,8 +1,8 @@
 <template>
     <div>
-        <tr v-for="i in longgoals" v-bind:key="i.longgoal_id">
-            <b-button  class="w-100" variant="outline-primary">{{i.longgoal}}</b-button>
-        </tr>
+        <div v-for="i in longgoals" v-bind:key="i.longgoal_id">
+            <b-button class="mt-2" block variant="outline-primary">{{i.longgoal}}</b-button>
+        </div>
     </div>
 </template>
 
