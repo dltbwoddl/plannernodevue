@@ -2,17 +2,20 @@
   <div id="app">
       <longbutton/>
       <habitlist/>
+      <todolist/>
   </div>
 </template>
 
 <script>
 import longbutton from '../components/longbutton'
 import habitlist from '../components/habitlist'
+import todolist from '../components/todolist'
 export default {
   name: 'App',
   components:{
       longbutton,
-      habitlist
+      habitlist,
+      todolist
   }
 
 }

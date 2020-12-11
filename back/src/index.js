@@ -32,6 +32,27 @@ app.get('/habit',(req,res)=>{
     })
 })
 
+app.get('/todolist',(req,res)=>{
+    const pool_1 = new pool();
+    var shortgoallist = new Array();
+    Promise.using(pool_1.connect(), conn => {
+        conn.queryAsync('SELECT * FROM shortGoal').then((ret) => {
+            for(i in ret){
+                console.log(ret[i]['shortgoal'])
+                conn.queryAsync(`SELECT * FROM ${ret[i]['shortgoal']}`).then(ret=>{
+                    shortgoallist.push(ret)
+                }).catch(err=>{
+                    console.log('err');
+                });
+            }
+        }).then(ret => {
+            console.log(22);
+            res.json(shortgoallist);
+            pool_1.end(); 
+        })
+    })
+})
+
 app.listen(port, () => {
     console.log('success')
 })

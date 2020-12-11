@@ -7,7 +7,9 @@ Vue.use(Vuex)
 const store = new Vuex.Store({
     state: {
         longgoal:new Array(),
-        habit:new Array()
+        habit:new Array(),
+        todolist:new Array()
+
     },
     mutations: {
       mutatelonggoaldata(state,data){
@@ -15,6 +17,9 @@ const store = new Vuex.Store({
       },
       mutatehabit(state,data){
         return state.habit=data
+      },
+      mutatetodolist(state,data){
+        return state.todolist=data
       }
     },
     actions:{
@@ -28,7 +33,15 @@ const store = new Vuex.Store({
       gethabit({commit}){
         axios.get('http://localhost:3000/habit')
         .then((res)=>{
+          console.log(res.data)
           commit('mutatehabit',res.data);
+        })
+      },
+      gettodolist({commit}){
+        axios.get('http://localhost:3000/todolist')
+        .then((res)=>{
+          console.log(res.data)
+          commit('mutatetodolist',res.data);
         })
       }
     },

@@ -1,6 +1,6 @@
 <template>
     <div class="mt-5">
-        <b-list-group v-for="i in habit" v-bind:key="i.id">
+        <b-list-group v-for="i in todolist" v-bind:key="i.id">
             <b-list-group-item active class="text-center">{{i.habit}}</b-list-group-item>
         </b-list-group>
     </div>
@@ -8,10 +8,10 @@
 
 <script>
 export default {
+    name : 'todolist',
     computed:{
-        name : 'habit',
-        habit: function(){
-            return this.$store.state.habit;
+        todolist: function(){
+            return this.$store.state.todolist;
         }
     }
 }

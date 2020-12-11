@@ -11,6 +11,7 @@ Vue.config.productionTip = false
 
 store.dispatch('getlonggoal')
 store.dispatch('gethabit')
+store.dispatch('gettodolist')
 
 new Vue({
   router,
