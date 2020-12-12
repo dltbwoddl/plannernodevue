@@ -16,3 +16,8 @@ pool.js에서 발생한
 +Unhandled rejection Error: ER_ACCESS_DENIED_ERROR: Access denied for user ''@'localhost' (using password: NO)문제 해결
 에러에서 중요한 것은 ''@'localhost'이부분이다. user명이 안들어가 있음을 의미한다.
 이는 생성자부분에서 빈 db_info가 들어갔기 때문이다.
+
+여러번의 데이터 베이스 호출에로 인해 비동기 처리가 발생해 한 번에 보내기 어려울 때는
+async each를 사용한다. 주의할점은 에러가 나면 callback함수가 진행되지 않는다는 점이다
+때문에 에러가 발생해도 callback(null)로 에러가 발생하지 않은 것처럼 해야 한다.
+ 

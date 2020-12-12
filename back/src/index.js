@@ -4,15 +4,11 @@ const cors = require('cors')
 const mysql = require('mysql')
 const Promise = require('bluebird')
 const pool = require('./DataBase/pool')
-
-
-
+var async = require('async');
 
 app.use(cors())
 
 const port = 3000;
-
-
 
 app.get('/longgoal', (req, res) => {
     const pool_1 = new pool();
@@ -23,7 +19,7 @@ app.get('/longgoal', (req, res) => {
     })
 });
 
-app.get('/habit',(req,res)=>{
+app.get('/habit', (req, res) => {
     const pool_1 = new pool();
     Promise.using(pool_1.connect(), conn => {
         conn.queryAsync('SELECT * FROM habit').then((ret) => {
@@ -32,27 +28,44 @@ app.get('/habit',(req,res)=>{
     })
 })
 
-app.get('/todolist',(req,res)=>{
+app.get('/todolist', async (req, res) => {
     const pool_1 = new pool();
+    const pool_2 = new pool();
     var shortgoallist = new Array();
+    var todolist = new Array();
+
     Promise.using(pool_1.connect(), conn => {
-        conn.queryAsync('SELECT * FROM shortGoal').then((ret) => {
-            for(i in ret){
-                console.log(ret[i]['shortgoal'])
-                conn.queryAsync(`SELECT * FROM ${ret[i]['shortgoal']}`).then(ret=>{
-                    shortgoallist.push(ret)
-                }).catch(err=>{
-                    console.log('err');
-                });
-            }
-        }).then(ret => {
-            console.log(22);
-            res.json(shortgoallist);
-            pool_1.end(); 
-        })
+        conn.queryAsync('SELECT * FROM shortGoal')
+            .then((ret) => {
+                for (i in ret) {
+                    shortgoallist.push(ret[i]['shortgoal'])
+                }
+            }).then(() => {
+
+                function gettodolist(shortgoal, callback) {
+                    conn.queryAsync(`SELECT * FROM ${shortgoal}`)
+                        .then(ret => {
+                            for(i in ret){
+                                todolist.push(ret[i])
+                            }
+                            callback(null)
+                        }).catch(err => {
+                            callback(null)
+                        });
+                }
+
+                async.each(shortgoallist,
+                    gettodolist,
+                    function (err) {
+                        console.log(100);
+                        console.log(todolist);
+                        res.json(todolist);
+                    })
+            })
     })
 })
 
 app.listen(port, () => {
     console.log('success')
 })
+// select * from vuejs, shortgoal where date = date_format("2020-12-11","%Y-%m-%d")
