@@ -2,9 +2,10 @@ const pool = require('./pool');
 const Promise = require('bluebird');
 var async = require('async');
 
-const pool_1 = new pool();
+// const pool_1 = new pool();
 
 module.exports = {
+    
     longgoalget : function(req,res){
         const pool_1 = new pool();
         Promise.using(pool_1.connect(), conn => {
@@ -13,6 +14,7 @@ module.exports = {
             }).then(ret => { pool_1.end(); })
         })
     },
+
     habitget : function(req,res){
         const pool_1 = new pool();
         Promise.using(pool_1.connect(), conn => {
@@ -21,7 +23,9 @@ module.exports = {
             }).then(ret => { pool_1.end(); })
         })
     },
+
     todolistget: function (req,res) {
+        const pool_1 = new pool();
         Promise.using(pool_1.connect(), conn => {
             var shortgoallist = new Array();
             var todolist = new Array();
@@ -31,9 +35,8 @@ module.exports = {
                         shortgoallist.push(ret[i]['shortgoal'])
                     }
                 }).then(() => {
-
                     function gettodolist(shortgoal, callback) {
-                        conn.queryAsync(`SELECT * FROM ${shortgoal}`)
+                        conn.queryAsync(`SELECT * FROM ${shortgoal} where date = CURDATE();`)
                             .then(ret => {
                                 for (i in ret) {
                                     todolist.push(ret[i])
@@ -43,13 +46,13 @@ module.exports = {
                                 callback(null)
                             });
                     }
-
                     async.each(shortgoallist,
                         gettodolist,
                         function (err) {
                             console.log(100);
                             console.log(todolist);
                             res.json(todolist);
+                            pool_1.end();
                         })
                 })
         })

@@ -1,8 +1,9 @@
 <template>
   <div id="app">
-      <longbutton/>
-      <habitlist/>
+      <longbutton />
       <todolist/>
+      <habitlist/>
+      
   </div>
 </template>
 

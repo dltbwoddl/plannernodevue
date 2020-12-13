@@ -1,9 +1,7 @@
 const express = require('express');
 const app = express();
 const cors = require('cors')
-const mysql = require('mysql')
 const gethomedata = require('./DataBase/gethomedata')
-var async = require('async');
 
 app.use(cors())
 
@@ -24,4 +22,3 @@ app.get('/todolist', async (req, res) => {
 app.listen(port, () => {
     console.log('success')
 })
-// select * from vuejs, shortgoal where date = date_format("2020-12-11","%Y-%m-%d")
