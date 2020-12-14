@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/home.vue'
+import middlegoal from '../views/middlegoal.vue'
 
 Vue.use(VueRouter)
 
@@ -8,7 +9,12 @@ const routes = [
   {
     path: '/',
     name: 'Home',
-    component: Home
+    component : Home
+  },  
+  {
+    path : '/middlegoal/:longgoal_id',
+    name : 'middlegoal',
+    component : middlegoal
   }
 ]
 

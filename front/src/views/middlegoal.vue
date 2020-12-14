@@ -1,8 +1,7 @@
 <template>
   <div id="app">
-    <router-link to="/"></router-link>
-    <router-link to='/middlegoal/:longgoal_id'></router-link>
-    <router-view></router-view>
+      <p>aaa</p>
+      
   </div>
 </template>
 
@@ -11,6 +10,7 @@
 export default {
   name: 'App',
   components:{
+
   }
 
 }

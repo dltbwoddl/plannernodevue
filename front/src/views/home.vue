@@ -3,7 +3,6 @@
       <longbutton />
       <todolist/>
       <habitlist/>
-      
   </div>
 </template>
 
