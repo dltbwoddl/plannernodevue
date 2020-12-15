@@ -48,7 +48,6 @@ const store = new Vuex.Store({
           commit('mutatetodolist',res.data);
         })
       },
-
       getmiddlegoal({commit},longgoal_id){
         axios.get(`http://localhost:3000/${longgoal_id}`)
         .then((res)=>{
