@@ -1,16 +1,16 @@
 <template>
   <div id="app">
-      <p>aaa</p>
+      <middlebutton/>
       
   </div>
 </template>
 
 <script>
-
+import middlebutton from '../components/middlebutton'
 export default {
   name: 'App',
   components:{
-
+    middlebutton
   }
 
 }

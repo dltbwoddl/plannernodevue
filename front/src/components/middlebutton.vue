@@ -1,7 +1,7 @@
 <template>
     <div>
-        <div v-for="i in middlegoals" v-bind:key="i.id">
-            <b-button :href="i.middlegoal">i.middlegoal</b-button>
+        <div v-for="i in middlegoal" v-bind:key="i.id">
+            <b-button>i.middlegoal</b-button>
         </div>
     </div>
 </template>
@@ -10,8 +10,8 @@
 export default {
     name : 'longbutton',
     computed:{
-        middlegoals: function(){
-            return this.$store.state.middlegoals;
+        middlegoal: function(){
+            return this.$store.state.middlegoal;
         }
     }
 }

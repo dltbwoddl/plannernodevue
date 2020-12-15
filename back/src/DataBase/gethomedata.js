@@ -5,8 +5,8 @@ var async = require('async');
 // const pool_1 = new pool();
 
 module.exports = {
-    
-    longgoalget : function(req,res){
+
+    longgoalget: function (req, res) {
         const pool_1 = new pool();
         Promise.using(pool_1.connect(), conn => {
             conn.queryAsync('SELECT * FROM LongGoal').then((ret) => {
@@ -15,7 +15,7 @@ module.exports = {
         })
     },
 
-    habitget : function(req,res){
+    habitget: function (req, res) {
         const pool_1 = new pool();
         Promise.using(pool_1.connect(), conn => {
             conn.queryAsync('SELECT * FROM habit').then((ret) => {
@@ -24,7 +24,7 @@ module.exports = {
         })
     },
 
-    todolistget: function (req,res) {
+    todolistget: function (req, res) {
         const pool_1 = new pool();
         Promise.using(pool_1.connect(), conn => {
             var shortgoallist = new Array();
@@ -49,12 +49,22 @@ module.exports = {
                     async.each(shortgoallist,
                         gettodolist,
                         function (err) {
-                            console.log(100);
                             console.log(todolist);
                             res.json(todolist);
                             pool_1.end();
                         })
                 })
         })
+    },
+    getmiddlegoal: function (req, res, longgoal_id) {
+        const pool_1 = new pool();
+        Promise.using(pool_1.connect(), conn => {
+            conn.queryAsync(`SELECT * FROM middlegoal where longgoal_id = ${longgoal_id};`).then((ret) => {
+                console.log(ret);
+                res.json(ret);
+            }).then(ret => { pool_1.end(); })
+            .catch(err=>{ pool_1.end();})
+        })
+
     }
 }

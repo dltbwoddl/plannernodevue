@@ -20,14 +20,9 @@ app.get('/todolist', (req, res) => {
 })
 
 app.get('/:longgoal_id',(req,res)=>{
-    const pool_1 = new pool();
-    Promise.using(pool_1.connect(), conn => {
-        conn.queryAsync('SELECT * FROM habit').then((ret) => {
-            res.json(ret)
-        }).then(ret => { pool_1.end(); })
-    })
-    console.log(req.params.longgoal_id);
-    res.send(req.params.longgoal_id)
+    var longgoal_id = req.params.longgoal_id;
+    console.log('longgoal_id',longgoal_id)
+    gethomedata.getmiddlegoal(req,res,longgoal_id);
 })
 
 app.listen(port, () => {
