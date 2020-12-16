@@ -9,7 +9,8 @@ const store = new Vuex.Store({
         longgoal:new Array(),
         habit:new Array(),
         todolist:new Array(),
-        middlegoal:new Array()
+        middlegoal:new Array(),
+        longgoal_id:0
 
     },
     mutations: {
@@ -51,7 +52,6 @@ const store = new Vuex.Store({
       getmiddlegoal({commit},longgoal_id){
         axios.get(`http://localhost:3000/${longgoal_id}`)
         .then((res)=>{
-          console.log(3000)
           console.log(res.data);
           commit('mutatemiddlegoal',res.data);
         })

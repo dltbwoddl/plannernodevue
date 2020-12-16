@@ -10,11 +10,6 @@ Vue.use(BootstrapVue)
 Vue.use(BootstrapVueIcons)
 
 Vue.config.productionTip = false
-
-store.dispatch('getlonggoal')
-store.dispatch('gethabit')
-store.dispatch('gettodolist')
-
 new Vue({
   router,
   store,

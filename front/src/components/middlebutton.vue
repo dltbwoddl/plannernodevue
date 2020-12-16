@@ -1,7 +1,7 @@
 <template>
     <div>
         <div v-for="i in middlegoal" v-bind:key="i.id">
-            <b-button>i.middlegoal</b-button>
+            <b-button class="mt-2" block variant="outline-primary">{{i.middlegoal}}</b-button>
         </div>
     </div>
 </template>
