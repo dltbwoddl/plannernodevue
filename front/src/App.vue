@@ -1,6 +1,7 @@
 <template>
   <div id="app">
     <router-link to="/"></router-link>
+    <router-link to="/modify/:longgoal_id"></router-link>
     <router-link to='/middlegoal/:longgoal_id'></router-link>
     <router-view></router-view>
   </div>
