@@ -1,5 +1,6 @@
 <template>
-  <div style="margin-top: 100px;">
+  <div style="margin-top: 10px;">
+      <b-button href="../"><b-icon icon="arrow-left-square"></b-icon> save</b-button>
       <longgoalmodify/>
   </div>
 </template>

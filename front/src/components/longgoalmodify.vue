@@ -1,10 +1,12 @@
 <template>
   <div>
+    <form action="post">
     <b-input-group v-for="i in longgoals" v-bind:key="i.longgoal_id">
       <b-form-input style="margin-top: 10px;" :value=i.longgoal></b-form-input>
     </b-input-group>
-    <div id=longgoalgroup></div>
-    <b-button>장기목표 추가하기</b-button>
+    <div id="longgoalgroup"></div>
+    </form>
+    <b-button style="margin-top: 10px;" v-on:click="addinput">장기목표 추가하기</b-button>
   </div>
 </template>
 
@@ -18,7 +20,12 @@ export default {
     methods:{
       addinput : function(){
         var parent = document.getElementById("longgoalgroup")
-        parent.append('<b-form-input style="margin-top: 10px;" placeholder="장기목표 입력"></b-form-input>')
+        var p = document.createElement('input')
+        p.setAttribute('type','text')
+        p.setAttribute('class','form-control')
+        p.setAttribute('id','__BVID__13')
+        p.setAttribute('style','margin-top: 10px;')
+        parent.append(p)
       }
     }
 }
