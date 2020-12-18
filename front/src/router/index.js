@@ -33,6 +33,10 @@ const routes = [
     path : '/modify',
     name : longgoalmodify,
     component : longgoalmodify,
+    beforeEnter: (to, from, next) => {
+      store.dispatch('getlonggoal')
+      next();
+    }
   }
 ]
 
