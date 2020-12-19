@@ -1,6 +1,6 @@
 <template>
   <div style="margin-top: 10px;">
-      <b-button href="../"><b-icon icon="arrow-left-square"></b-icon> save</b-button>
+      <b-button href="../"><b-icon icon="arrow-left-square"></b-icon></b-button>
       <longgoalmodify/>
   </div>
 </template>
