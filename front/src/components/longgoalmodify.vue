@@ -8,7 +8,6 @@
     <b-button style="margin-top: 10px;" v-on:click="addinput"><b-icon icon="plus-square"></b-icon></b-button>
     <b-button type="submit" style="margin-top: 10px;"><b-icon icon="arrow-bar-up"></b-icon></b-button>
     </form>
-    {{this.longgoalslen}}
   </div>
 </template>
 
@@ -16,24 +15,27 @@
 export default {
       data: function(){
         return {
-          longgoalslen : Object.keys(this.$store.state.longgoal).length
+          i:0
           }
       },
     computed:{
         longgoals: function(){
             return this.$store.state.longgoal;
+        },
+        longgoalslens : function(){
+          return Object.keys(this.$store.state.longgoal).length
         }
     },
     methods:{
       addinput : function(){
-        this.longgoalslen+=1;
+        this.i+=1;
         var parent = document.getElementById("longgoalgroup")
         var p = document.createElement('input')
         p.setAttribute('type','text')
         p.setAttribute('class','form-control')
         p.setAttribute('id','__BVID__13')
         p.setAttribute('style','margin-top: 10px;')
-        p.setAttribute('name',this.longgoalslen)
+        p.setAttribute('name',this.longgoalslens+this.i)
         parent.append(p)
       }
     }

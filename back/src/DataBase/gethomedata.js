@@ -10,6 +10,7 @@ module.exports = {
         const pool_1 = new pool();
         Promise.using(pool_1.connect(), conn => {
             conn.queryAsync('SELECT * FROM LongGoal').then((ret) => {
+                console.log(ret)
                 res.json(ret)
             }).then(ret => { pool_1.end(); })
         })
