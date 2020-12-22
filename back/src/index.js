@@ -10,6 +10,7 @@ Promise.promisifyAll(mysql);
 Promise.promisifyAll(require('mysql/lib/Connection').prototype)
 Promise.promisifyAll(require('mysql/lib/Pool').prototype);
 var _ = require('lodash');
+var async = require('async');
 
 
 app.use(bodyParser.urlencoded({ extended: false }))
@@ -36,33 +37,57 @@ app.get('/:longgoal_id', (req, res) => {
     gethomedata.getmiddlegoal(req, res, longgoal_id);
 })
 
-//longgoal에서 받아왔을 때
-//key
+//삭제하기 추가하기.
 app.post('/modify', (req, res) => {
-    console.log(req.body);
-    //{ '1': '코딩 마스터', '2': '인문학 마스터', '3': '123' }
-    console.log(100000)
-    var data = req.body;
-    for(i in data){
-        console.log(data[i])
-    }
-//     //users안에 있는 객체들이 o에 하나씩 들어가 age가 40보다 작으면 return하고 종료한다.
-//   console.log(_.findKey(users, function(o) { return o.age < 40; }));
-//   // =>bal
-   
-//   //age:35, active:true 조건에 맞는 객체를 가져온다.
-//   console.log(_.findKey(users, { 'age': 35, 'active': true }));
-//   // => story
-   
-//   //active값이 false인 객체를 가져온다.
-//   console.log(_.findKey(users, ['active', false]));
-//   // => mo
+    const pool_1 = new pool();
+    var chagedata = new Array();
+    Promise.using(pool_1.connect(), conn => {
+        conn.queryAsync('SELECT * FROM longgoal').then((ret) => {
+            console.log(ret);
+            return ret
+        }).then(ret => {
+            for (i in ret) {
+                if (req.body[ret[i].longgoal_id] != ret[i].longgoal) {
+                    var data = new Object()
+                    data[ret[i].longgoal_id] = req.body[ret[i].longgoal_id]
+                    chagedata.push(data)
+                }
+            }
+            function updatelonggoal(longgoal_m, callback) {
+                console.log('longgoal_m : ', longgoal_m, Object.values(longgoal_m)[0], Object.keys(longgoal_m)[0])
+                conn.queryAsync(`UPDATE longgoal SET longgoal = '${Object.values(longgoal_m)[0]}' where longgoal_id = ${Object.keys(longgoal_m)[0]}`)
+                    .then(ret => {
+                        callback(null)
+                    }).catch(err => {
+                        console.log(err);
+                        callback(null)
+                    });
+            }
+            async.each(chagedata,
+                updatelonggoal,
+                function (err) {
+                    console.log(err);
+                });
 
-//   //active가 true인 첫 번째 값을 가져와 보여준다.
-//   console.log(_.findKey(users, 'active'));
-//   // => bal
+            var plusdata = ``
+            for(i in Object.keys(req.body)){
+                if(Object.keys(req.body)[i] > Object.keys(ret).length){
+                    plusdata += `('${req.body[parseInt(i)+1]}'),`
+                }
+            }
+            console.log(plusdata.slice(0,-1));
+            conn.queryAsync(`INSERT INTO longgoal(longgoal) VALUES ${plusdata.slice(0,-1)};`)
+                    .then(ret => {
+                        console.log(ret)
+                    }).catch(err => {
+                        console.log(err);
+                    });
+            pool_1.end();
+        });
+    });
 });
 
 app.listen(port, () => {
     console.log('success')
 })
+//INSERT INTO vuejs(date,do) VALUES ( CURDATE(),'1234');
