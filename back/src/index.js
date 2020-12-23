@@ -46,43 +46,62 @@ app.post('/modify', (req, res) => {
             console.log(ret);
             return ret
         }).then(ret => {
-            for (i in ret) {
-                if (req.body[ret[i].longgoal_id] != ret[i].longgoal) {
-                    var data = new Object()
-                    data[ret[i].longgoal_id] = req.body[ret[i].longgoal_id]
-                    chagedata.push(data)
-                }
+            //deldata에 없어지 id를 찾아서 
+            var pkey = []
+            var rkey = Object.keys(req.body)
+            var rkeys = new Array();
+            for (i in rkey) {
+                rkeys.push(parseInt(rkey[i]))
             }
-            function updatelonggoal(longgoal_m, callback) {
-                console.log('longgoal_m : ', longgoal_m, Object.values(longgoal_m)[0], Object.keys(longgoal_m)[0])
-                conn.queryAsync(`UPDATE longgoal SET longgoal = '${Object.values(longgoal_m)[0]}' where longgoal_id = ${Object.keys(longgoal_m)[0]}`)
-                    .then(ret => {
-                        callback(null)
-                    }).catch(err => {
-                        console.log(err);
-                        callback(null)
-                    });
+            for (i in Object.keys(ret)) {
+                pkey.push(ret[i].longgoal_id)
             }
-            async.each(chagedata,
-                updatelonggoal,
-                function (err) {
-                    console.log(err);
+            let difference = pkey.filter(x => !rkeys.includes(x));
+            console.log(difference);
+            var deldata = `(${difference})`
+            console.log(deldata)
+            // delete from LIST where NUM in (345, 654);
+            conn.queryAsync(`DELETE FROM longgoal WHERE longgoal_id in ${deldata}`)
+                .then(delresult => {
+                    
                 });
-
-            var plusdata = ``
-            for(i in Object.keys(req.body)){
-                if(Object.keys(req.body)[i] > Object.keys(ret).length){
-                    plusdata += `('${req.body[parseInt(i)+1]}'),`
+                for (i in ret) {
+                    if (req.body[ret[i].longgoal_id] != ret[i].longgoal) {
+                        var data = new Object()
+                        data[ret[i].longgoal_id] = req.body[ret[i].longgoal_id]
+                        chagedata.push(data)
+                    }
                 }
-            }
-            console.log(plusdata.slice(0,-1));
-            conn.queryAsync(`INSERT INTO longgoal(longgoal) VALUES ${plusdata.slice(0,-1)};`)
+                function updatelonggoal(longgoal_m, callback) {
+                    console.log('longgoal_m : ', longgoal_m, Object.values(longgoal_m)[0], Object.keys(longgoal_m)[0])
+                    conn.queryAsync(`UPDATE longgoal SET longgoal = '${Object.values(longgoal_m)[0]}' where longgoal_id = ${Object.keys(longgoal_m)[0]}`)
+                        .then(ret => {
+                            callback(null)
+                        }).catch(err => {
+                            console.log(err);
+                            callback(null)
+                        });
+                }
+                async.each(chagedata,
+                    updatelonggoal,
+                    function (err) {
+                        console.log(err);
+                    });
+
+                var plusdata = ``
+                for (i in Object.keys(req.body)) {
+                    if (Object.keys(req.body)[i] > Object.keys(ret).length) {
+                        plusdata += `('${req.body[parseInt(i) + 1]}'),`
+                    }
+                }
+                console.log(plusdata.slice(0, -1));
+                conn.queryAsync(`INSERT INTO longgoal(longgoal) VALUES ${plusdata.slice(0, -1)};`)
                     .then(ret => {
                         console.log(ret)
                     }).catch(err => {
                         console.log(err);
                     });
-            pool_1.end();
+                pool_1.end();
         });
     });
 });

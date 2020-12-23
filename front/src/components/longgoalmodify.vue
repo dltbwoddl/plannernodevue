@@ -2,7 +2,9 @@
   <div>
     <form action="http://localhost:3000/modify" method="post">
     <b-input-group v-for="i in longgoals" v-bind:key="i.longgoal_id">
-      <b-form-input style="margin-top: 10px;" :value=i.longgoal :name=i.longgoal_id></b-form-input>
+      <div :id="i.longgoal_id">
+          <b-form-input style="margin-top: 10px;" :value=i.longgoal :name=i.longgoal_id></b-form-input><b-button variant="danger"  v-on:click="longgoaldel(i.longgoal_id)">del</b-button>
+      </div>
     </b-input-group>
     <div id="longgoalgroup"></div>
     <b-button style="margin-top: 10px;" v-on:click="addinput"><b-icon icon="plus-square"></b-icon></b-button>
@@ -35,8 +37,12 @@ export default {
         p.setAttribute('class','form-control')
         p.setAttribute('id','__BVID__13')
         p.setAttribute('style','margin-top: 10px;')
-        p.setAttribute('name',this.longgoalslens+this.i)
+        p.setAttribute('name',this.longgoals[this.longgoalslens-1].longgoal_id+this.i)
         parent.append(p)
+      },
+      longgoaldel : function(id){
+        var el = document.getElementById(id);
+        el.remove();
       }
     }
 }
