@@ -4,6 +4,7 @@ import Home from '../views/home.vue'
 import middlegoal from '../views/middlegoal.vue'
 import longgoalmodify from '../views/modify.vue'
 import store from '../store/index.js'
+import middlegoalmodify from '../views/middlegoalmodify.vue'
 Vue.use(VueRouter)
 
 const routes = [
@@ -19,12 +20,21 @@ const routes = [
     }
   },
   {
+    path:'/middlegoal/modify/:longgoal_id',
+    name: 'middlegoalmodify',
+    component: middlegoalmodify,
+    beforeEnter:(to,from, next)=>{
+      var pathname = window.location.pathname.split('/')[3];
+      store.dispatch('getmiddlegoal',pathname)
+      next();
+    }
+  },
+  {
     path: '/middlegoal/:longgoal_id',
     name: 'middlegoal',
     component: middlegoal,
     beforeEnter: (to, from, next) => {
       var pathname = window.location.pathname.split('/');
-      console.log(pathname[2])
       store.dispatch('getmiddlegoal', pathname[2])
       next();
     }
