@@ -37,7 +37,11 @@ export default {
         p.setAttribute('class','form-control')
         p.setAttribute('id','__BVID__13')
         p.setAttribute('style','margin-top: 10px;')
-        p.setAttribute('name',this.longgoals[this.longgoalslens-1].longgoal_id+this.i)
+        if(this.longgoalslens !=0){
+          p.setAttribute('name',this.longgoals[this.longgoalslens-1].longgoal_id+this.i)
+        }else{
+          p.setAttribute('name',this.i);
+        }
         parent.append(p)
       },
       longgoaldel : function(id){

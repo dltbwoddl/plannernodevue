@@ -5,6 +5,7 @@ import middlegoal from '../views/middlegoal.vue'
 import longgoalmodify from '../views/modify.vue'
 import store from '../store/index.js'
 import middlegoalmodify from '../views/middlegoalmodify.vue'
+import shortgoal from "../views/shortgoal.vue"
 Vue.use(VueRouter)
 
 const routes = [
@@ -36,6 +37,16 @@ const routes = [
     beforeEnter: (to, from, next) => {
       var pathname = window.location.pathname.split('/');
       store.dispatch('getmiddlegoal', pathname[2])
+      next();
+    }
+  },
+  {
+    path :"/shortgoal/:middlegoal_id",
+    name : 'shortgoal',
+    component:shortgoal,
+    beforeEnter:(to,from,next)=>{
+      var pathname = window.location.pathname.split('/');
+      store.dispatch('getshortgoal', pathname[2])
       next();
     }
   },

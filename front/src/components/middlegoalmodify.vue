@@ -1,6 +1,6 @@
 <template>
   <div>
-    <form action="http://localhost:3000/middlegoal/modify" method="post">
+    <form :action="`http://localhost:3000/middlegoal/modify/${this.longgoalid}`" method="post">
     <b-input-group v-for="i in middlegoals" v-bind:key="i.id">
       <div :id="i.id">
           <b-form-input style="margin-top: 10px;" :value=i.middlegoal :name=i.id></b-form-input><b-button variant="danger"  v-on:click="middlegoaldel(i.id)">del</b-button>
@@ -17,7 +17,8 @@
 export default {
       data: function(){
         return {
-          i:0
+          i:0,
+          longgoalid : window.location.pathname.split('/')[3]
           }
       },
     computed:{
@@ -31,13 +32,17 @@ export default {
     methods:{
       addinput : function(){
         this.i+=1;
-        var parent = document.getElementById("longgoalgroup")
+        var parent = document.getElementById("middlegoalgroup")
         var p = document.createElement('input')
         p.setAttribute('type','text')
         p.setAttribute('class','form-control')
         p.setAttribute('id','__BVID__13')
         p.setAttribute('style','margin-top: 10px;')
-        p.setAttribute('name',this.middlegoals[this.middlegoalslens-1].id+this.i)
+        if(this.middlegoalslens !=0){
+          p.setAttribute('name',this.middlegoals[this.middlegoalslens-1].id+this.i);
+        }else{
+          p.setAttribute('name',this.i);
+        }
         parent.append(p)
       },
       middlegoaldel : function(id){

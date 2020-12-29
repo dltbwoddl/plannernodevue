@@ -10,6 +10,7 @@ const store = new Vuex.Store({
         habit:new Array(),
         todolist:new Array(),
         middlegoal:new Array(),
+        shortgoal:new Array(),
         longgoal_id:0
 
     },
@@ -25,6 +26,9 @@ const store = new Vuex.Store({
       },
       mutatemiddlegoal(state,data){
         return state.middlegoal=data
+      },
+      mutateshortgoal(state,data){
+        return state.shortgoal=data
       }
     },
     actions:{
@@ -54,6 +58,13 @@ const store = new Vuex.Store({
         .then((res)=>{
           console.log(res.data);
           commit('mutatemiddlegoal',res.data);
+        })
+      },
+      getshortgoal({commit},middlegoal_id){
+        axios.get(`http://localhost:3000/shortgoal/${middlegoal_id}`)
+        .then((res)=>{
+          console.log(res.data);
+          commit('mutateshortgoal',res.data);
         })
       }
     },

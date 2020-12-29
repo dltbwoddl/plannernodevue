@@ -67,5 +67,15 @@ module.exports = {
             .catch(err=>{ pool_1.end();})
         })
 
+    },
+    getshortgoal : function(req,res,middlegoal_id){
+        const pool_1 = new pool();
+        Promise.using(pool_1.connect(), conn => {
+            conn.queryAsync(`SELECT * FROM shortgoal where middelgoal_id = ${middlegoal_id};`).then((ret) => {
+                console.log(ret);
+                res.json(ret);
+            }).then(ret => { pool_1.end(); })
+            .catch(err=>{ pool_1.end();})
+        })
     }
 }
