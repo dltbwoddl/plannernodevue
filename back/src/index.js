@@ -56,7 +56,13 @@ app.get('/shortgoal/:middlegoal_id',(req,res)=>{
     var middlegoal_id = req.params.middlegoal_id;
     console.log(middlegoal_id);
     gethomedata.getshortgoal(req,res,middlegoal_id);
-})
+});
+
+app.post('/shortgoal/modify/:middlegoal_id',(req,res)=>{
+    var middlegoal_id = req.params.middlegoal_id;
+    console.log(middlegoal_id);
+    modifydata.shortgoalmodify(req,res,middlegoal_id);
+});
 
 app.listen(port, () => {
     console.log('success')
