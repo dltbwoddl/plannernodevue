@@ -66,6 +66,14 @@ const store = new Vuex.Store({
           console.log(res.data);
           commit('mutateshortgoal',res.data);
         })
+      },
+      getshortgoaltodolist({commit},shortgoal){
+        axios.get(`http://localhost:3000/todolist/${shortgoal}`)
+        .then((res)=>{
+          console.log(1000)
+          console.log(res.data);
+          commit('mutatetodolist',res.data)
+        })
       }
     },
     modules:{

@@ -77,5 +77,15 @@ module.exports = {
             }).then(ret => { pool_1.end(); })
             .catch(err=>{ pool_1.end();})
         })
+    },
+    shortgoaltodolist:function(req,res,shortgoal){
+        const pool_1 = new pool();
+        Promise.using(pool_1.connect(), conn => {
+            conn.queryAsync(`SELECT * FROM ${shortgoal};`).then((ret) => {
+                console.log(ret);
+                res.json(ret);
+            }).then(ret => { pool_1.end(); })
+            .catch(err=>{ pool_1.end();})
+        })
     }
 }
