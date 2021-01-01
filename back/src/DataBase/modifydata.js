@@ -253,5 +253,102 @@ module.exports = {
             });
         })
 
+    },
+    todolistmodify: function (req, res,shortgoal) {
+        const pool_1 = new pool();
+        var chagedata = new Array();
+        console.log(100)
+        Promise.using(pool_1.connect(), conn => {
+            conn.queryAsync(`SELECT * FROM ${shortgoal};`).then((ret) => {
+                console.log(ret);
+                return ret
+            }).then(ret => {
+                var pkey = []
+                var rkey = Object.keys(req.body)
+                var rkeys = new Array();
+                for (i in rkey) {
+                    rkeys.push(parseInt(rkey[i]))
+                }
+                for (i in Object.keys(ret)) {
+                    pkey.push(ret[i].id)
+                }
+                console.log(req.body)
+                console.log('rkeys: ',rkeys);
+                console.log('pkey:',pkey);
+                let difference = pkey.filter(x => !rkeys.includes(x));
+                console.log('difference : ', difference);
+                var deldata = `(${difference})`
+                console.log(deldata)
+                if (deldata.length != 2) {
+                    conn.queryAsync(`DELETE FROM shortgoal WHERE id in ${deldata}`)
+                        .then(delresult => {
+
+                        });
+                    console.log(ret);
+                    console.log(req.body);
+                }
+
+                console.log(10000);
+                for (i in ret) {
+                    if (req.body[ret[i].id] != ret[i].middlegoal) {
+                        var data = new Object()
+                        data[ret[i].id] = req.body[ret[i].id]
+                        chagedata.push(data)
+                    }
+                }
+                function updatelonggoal(shorgoal_m, callback) {
+                    conn.queryAsync(`UPDATE shortgoal SET shortgoal = '${Object.values(shorgoal_m)[0]}' where id = ${Object.keys(shorgoal_m)[0]}`)
+                        .then(ret => {
+                            callback(null)
+                        }).catch(err => {
+                            console.log(err);
+                            callback(null)
+                        });
+                }
+                if (chagedata.length != 0) {
+                    async.each(chagedata,
+                        updatelonggoal,
+                        function (err) {
+                            console.log(err);
+                        });
+                }
+
+                var plusdata = ``
+                for (i in Object.keys(req.body)) {
+                    if (Object.keys(ret).length != 0) {
+                        if (Object.keys(req.body)[i] > ret[Object.keys(ret).length - 1].id) {
+                            plusdata += ` ('${req.body[Object.keys(req.body)[i]]}',${middlegoal_id}),`
+                        }
+                    }else{
+                        plusdata += ` ('${req.body[Object.keys(req.body)[i]]}',${middlegoal_id}),`
+                    }
+                }
+                console.log('plusdata:', plusdata.length)
+                if (plusdata != 0) {
+                    conn.queryAsync(`INSERT INTO shortgoal(shortgoal,middelgoal_id) VALUES` + plusdata.slice(0, -1) + `;`)
+                        .then(ret => {
+                            console.log(ret)
+                        }).catch(err => {
+                            console.log(err);
+                        });
+                }
+
+                pool_1.end();
+            }).catch(()=>{
+                console.log(`CREATE TABLE ${shortgoal}(
+                    id int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+                    date datetime NOT NULL,
+                    do varchar(60) NOT NULL
+                );`)
+                conn.queryAsync(`CREATE TABLE ${shortgoal}(
+                    id int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+                    date datetime NOT NULL,
+                    do varchar(60) NOT NULL
+                );`)
+            }).catch((err)=>{
+                console.log(err);
+            })
+        })
+
     }
 }

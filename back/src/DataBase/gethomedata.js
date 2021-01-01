@@ -82,7 +82,10 @@ module.exports = {
         const pool_1 = new pool();
         Promise.using(pool_1.connect(), conn => {
             conn.queryAsync(`SELECT * FROM ${shortgoal};`).then((ret) => {
-                console.log(ret);
+                //날짜 변경하고 정렬하기.
+                for(i in ret){
+                    console.log(ret[i].date)
+                }
                 res.json(ret);
             }).then(ret => { pool_1.end(); })
             .catch(err=>{ pool_1.end();})

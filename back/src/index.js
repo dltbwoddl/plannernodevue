@@ -68,6 +68,11 @@ app.get('/todolist/:shortgoal',(req,res)=>{
     console.log(shortgoal);
     gethomedata.shortgoaltodolist(req,res,shortgoal)
 })
+app.post('/todolist/modify/:shortgoal',(req,res)=>{
+    var shortgoal = req.params.shortgoal;
+    console.log(shortgoal);
+    modifydata.todolistmodify(req,res,shortgoal);
+})
 
 app.listen(port, () => {
     console.log('success')
