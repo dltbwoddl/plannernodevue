@@ -1,6 +1,7 @@
 const pool = require('./pool');
 const Promise = require('bluebird');
 var async = require('async');
+const { database } = require('firebase');
 
 // const pool_1 = new pool();
 
@@ -79,13 +80,35 @@ module.exports = {
         })
     },
     shortgoaltodolist:function(req,res,shortgoal){
+        console.log('shortgoal')
         const pool_1 = new pool();
         Promise.using(pool_1.connect(), conn => {
             conn.queryAsync(`SELECT * FROM ${shortgoal};`).then((ret) => {
-                //날짜 변경하고 정렬하기.
                 for(i in ret){
-                    console.log(ret[i].date)
+                    var date=ret[i].date
+                    var m=0
+                    var day=0
+                    console.log(date)
+                    console.log(parseInt(date.getMonth())<9)
+                    if(parseInt(date.getMonth())<9){
+                        console.log(date.getMonth()+1)
+                        console.log(m)
+                        m='0'+(date.getMonth()+1)
+                    } else{
+                        m = date.getmonth()+1
+                        console.log(m)
+                    }
+                    if(parseInt(date.getDate())<9){
+                        day = `0${date.getDate()}`
+                    } else{
+                        day = date.getDate()
+                    }
+                    console.log(m,day)
+                    var d = `${date.getFullYear()}-${m}-${day}`
+                    ret[i].date = d;
+                    console.log(d);
                 }
+                console.log(ret);
                 res.json(ret);
             }).then(ret => { pool_1.end(); })
             .catch(err=>{ pool_1.end();})

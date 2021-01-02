@@ -257,12 +257,14 @@ module.exports = {
     todolistmodify: function (req, res,shortgoal) {
         const pool_1 = new pool();
         var chagedata = new Array();
+        console.log(req.body)
         console.log(100)
         Promise.using(pool_1.connect(), conn => {
             conn.queryAsync(`SELECT * FROM ${shortgoal};`).then((ret) => {
                 console.log(ret);
                 return ret
             }).then(ret => {
+                //데이터 삭제하기
                 var pkey = []
                 var rkey = Object.keys(req.body)
                 var rkeys = new Array();
@@ -287,17 +289,20 @@ module.exports = {
                     console.log(ret);
                     console.log(req.body);
                 }
-
+// 데이터 변한곳
                 console.log(10000);
                 for (i in ret) {
-                    if (req.body[ret[i].id] != ret[i].middlegoal) {
+                    if (req.body[ret[i].id][1] != ret[i].do) {
                         var data = new Object()
+                        console.log(req.body[ret[i].id][1],ret[i].do)
                         data[ret[i].id] = req.body[ret[i].id]
                         chagedata.push(data)
                     }
                 }
-                function updatelonggoal(shorgoal_m, callback) {
-                    conn.queryAsync(`UPDATE shortgoal SET shortgoal = '${Object.values(shorgoal_m)[0]}' where id = ${Object.keys(shorgoal_m)[0]}`)
+                console.log('changedat: ',chagedata);
+                function updatelonggoal(todo, callback) {
+                    console.log(Object.values(todo));
+                    conn.queryAsync(`UPDATE ${shortgoal} SET do = '${Object.values(todo)[0][1]}', date = DATE_FORMAT('${Object.values(todo)[0][0]}',"%Y-%m-%d") where id = ${Object.keys(todo)[0]}`)
                         .then(ret => {
                             callback(null)
                         }).catch(err => {

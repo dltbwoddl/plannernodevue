@@ -3,6 +3,7 @@
     <form :action="`http://localhost:3000/todolist/modify/${this.shortgoal}`" method="post">
     <b-input-group v-for="i in todolists" v-bind:key="i.id">
       <div :id="i.id">
+          <input type="date" :name=i.id :value="i.date"> 
           <b-form-input style="margin-top: 10px;" :value=i.do :name=i.id></b-form-input><b-button variant="danger"  v-on:click="todolistdel(i.id)">del</b-button>
       </div>
     </b-input-group>
@@ -43,6 +44,14 @@ export default {
         }else{
           p.setAttribute('name',this.i);
         }
+        var d = document.createElement('input')
+        d.setAttribute('type','date')
+        if(this.todolists !=0){
+          d.setAttribute('name',this.todolists[this.todolistslens-1].id+this.i);
+        }else{
+          d.setAttribute('name',this.i);
+        }
+        parent.append(d)
         parent.append(p)
       },
       todolistdel : function(id){
