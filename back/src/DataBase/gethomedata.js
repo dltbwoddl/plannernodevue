@@ -80,8 +80,9 @@ module.exports = {
         })
     },
     shortgoaltodolist:function(req,res,shortgoal){
-        console.log('shortgoal')
+        console.log('shortgoa111l')
         const pool_1 = new pool();
+        console.log(shortgoal)
         Promise.using(pool_1.connect(), conn => {
             conn.queryAsync(`SELECT * FROM ${shortgoal};`).then((ret) => {
                 for(i in ret){
@@ -89,29 +90,31 @@ module.exports = {
                     var m=0
                     var day=0
                     console.log(date)
+                    console.log(date.getDate())
                     console.log(parseInt(date.getMonth())<9)
+                    console.log(parseInt(date.getDate())<9)
+
                     if(parseInt(date.getMonth())<9){
-                        console.log(date.getMonth()+1)
-                        console.log(m)
                         m='0'+(date.getMonth()+1)
-                    } else{
-                        m = date.getmonth()+1
-                        console.log(m)
+                    } else {
+                        m = date.getMonth()+1
                     }
+
                     if(parseInt(date.getDate())<9){
                         day = `0${date.getDate()}`
-                    } else{
+                    } else {
                         day = date.getDate()
                     }
-                    console.log(m,day)
                     var d = `${date.getFullYear()}-${m}-${day}`
                     ret[i].date = d;
-                    console.log(d);
                 }
                 console.log(ret);
                 res.json(ret);
             }).then(ret => { pool_1.end(); })
-            .catch(err=>{ pool_1.end();})
+            .catch(err=>{ 
+                console.log(err);
+                pool_1.end();
+            })
         })
     }
 }

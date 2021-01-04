@@ -17,7 +17,7 @@ export default {
     },
     data: function(){
         return {
-          shortgoal:window.location.pathname.split('/')[2]
+          shortgoal:window.location.pathname.split('/')[3]
         }
     }
 }

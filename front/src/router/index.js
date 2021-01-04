@@ -73,21 +73,23 @@ const routes = [
     }
   },
   {
-    path:'/todolist/:shortgoal',
-    name : todolists,
-    component : todolists,
-    beforeEnter:(to, from, next)=>{
-      var pathname = window.location.pathname.split('/');
-      store.dispatch('getshortgoaltodolist',pathname[2]);
-      next();
-    }
-  },
-  {
     path : '/todolist/modify/:shortgoal',
     name : todolistmodify,
     component : todolistmodify,
     beforeEnter:(to, from, next)=>{
       var pathname = window.location.pathname.split('/');
+      store.dispatch('getshortgoaltodolist',pathname[3]);
+      next();
+    }
+  },
+  {
+    path:'/todolist/sg/:shortgoal',
+    name : todolists,
+    component : todolists,
+    beforeEnter:(to, from, next)=>{
+      console.log(100)
+      var pathname = window.location.pathname.split('/');
+      console.log(pathname[3])
       store.dispatch('getshortgoaltodolist',pathname[3]);
       next();
     }
