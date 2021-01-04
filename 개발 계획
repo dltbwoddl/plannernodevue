@@ -59,6 +59,11 @@ case나누기.0
 20.문제 발견 : 
 단기 목표를 수정하면 접근 데이터 베이스를 찾을 때 테이블의 이름을 데이터 베이스 이름에서 찾기 때문에 찾을 수 없게 됨.
 이문제 해결하기.
+short id로 가져오게 하기.
+(프론트엔드 수정할 부분 : shortgoalbutton,href부분 .id로 바꾸고,
+storeindex.js todolsit가져오는 부분,
+백엔드 :shortgoaltodolist,
+)
 
 21. 단기목표 수정할 때 todolist데이터 베이스 만들기.
 22.todolist 오류체크하기.
