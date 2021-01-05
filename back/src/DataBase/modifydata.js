@@ -250,11 +250,6 @@ module.exports = {
                             console.log(err);
                         });
                 }
-                conn.queryAsync(`CREATE TABLE ${shortgoal}(
-                    id int NOT NULL AUTO_INCREMENT PRIMARY KEY,
-                    date datetime NOT NULL,
-                    do varchar(60) NOT NULL
-                );`)
                 pool_1.end();
             });
         })
@@ -268,27 +263,16 @@ module.exports = {
         Promise.using(pool_1.connect(), conn => {
             conn.queryAsync(`SELECT table_name FROM information_schema.tables WHERE table_schema = 'plannerdb';`)
                 .then(tablenames => {
-                    var tablelist = new Array();
-                    for (i in tablenames) {
-                        tablelist.push(tablenames[i].TABLE_NAME);
-                    }
-                    console.log(tablelist.includes(`${shortgoal}`))
-                    // if (!tablelist.includes(`${shortgoal}`)) {
-                    //     console.log(`CREATE TABLE ${shortgoal}(
-                    //     id int NOT NULL AUTO_INCREMENT PRIMARY KEY,
-                    //     date datetime NOT NULL,
-                    //     do varchar(60) NOT NULL
-                    // );`)
-                    //     conn.queryAsync(`CREATE TABLE ${shortgoal}(
-                    //     id int NOT NULL AUTO_INCREMENT PRIMARY KEY,
-                    //     date datetime NOT NULL,
-                    //     do varchar(60) NOT NULL
-                    // );`)
+                    // var tablelist = new Array();
+                    // for (i in tablenames) {
+                    //     tablelist.push(tablenames[i].TABLE_NAME);
                     // }
+                    // console.log(tablelist.includes(`${shortgoal}`))
                     conn.queryAsync(`SELECT * FROM ${shortgoal};`).then((ret) => {
                         console.log(ret);
                         return ret
                     }).then(ret => {
+                        console.log(ret)
                         //데이터 삭제하기
                         var pkey = []
                         var rkey = Object.keys(req.body)
@@ -316,6 +300,8 @@ module.exports = {
                         }
                         // 데이터 변한곳
                         console.log(10000);
+                        console.log(ret)
+                        console.log(req.body);
                         for (i in ret) {
                             if (req.body[ret[i].id][1] != ret[i].do) {
                                 var data = new Object()
@@ -345,6 +331,7 @@ module.exports = {
                         }
                         console.log(Object.keys(req.body))
                         console.log(Object.values(req.body))
+
                         //추가하는 부분
                         let pdifference = rkeys.filter(x => !pkey.includes(x));
                         console.log('pdifference : ', pdifference);
@@ -353,17 +340,8 @@ module.exports = {
                             console.log(req.body[pdifference[i]])
                             plusdata += `('${req.body[pdifference[i]][0]}','${req.body[pdifference[i]][1]}'),`
                         }
-                        // for (i in Object.keys(req.body)) {
-                        //     console.log(i)
-                        //     if (Object.keys(ret).length != 0) {
-                        //         if (Object.keys(req.body)[i] > ret[Object.keys(ret).length - 1].id) {
-                        //             plusdata += ` ('${req.body[Object.keys(req.body)[i][0]]}',${req.body[Object.keys(req.body)[i][1]]}),`
-                        //         }
-                        //     }else{
-                        //         plusdata += ` ('${req.body[Object.keys(req.body)[i]]}'),`
-                        //     }
-                        // }
                         console.log('plusdata:', plusdata)
+                        console.log(`INSERT INTO ${shortgoal}(date,do) VALUES` + plusdata.slice(0, -1) + `;`)
                         if (plusdata != 0) {
                             conn.queryAsync(`INSERT INTO ${shortgoal}(date,do) VALUES` + plusdata.slice(0, -1) + `;`)
                                 .then(ret => {
@@ -374,17 +352,6 @@ module.exports = {
                         }
 
                         pool_1.end();
-                    }).catch(() => {
-                        console.log(`CREATE TABLE ${shortgoal}(
-                    id int NOT NULL AUTO_INCREMENT PRIMARY KEY,
-                    date datetime NOT NULL,
-                    do varchar(60) NOT NULL
-                );`)
-                        conn.queryAsync(`CREATE TABLE ${shortgoal}(
-                    id int NOT NULL AUTO_INCREMENT PRIMARY KEY,
-                    date datetime NOT NULL,
-                    do varchar(60) NOT NULL
-                );`)
                     }).catch((err) => {
                         console.log(err);
                     })

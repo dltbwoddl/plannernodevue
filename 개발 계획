@@ -65,6 +65,11 @@ storeindex.js todolsit가져오는 부분,
 백엔드 :shortgoaltodolist,
 )
 
+-문제 : 단기목표 띄어쓰기 적용 불가.해결하기.
+-문제 : rename으로 단기 목표 테이블 까지 수정하기.
+
+실제 사용하며 문제 발견하기.
+
 21. 단기목표 수정할 때 todolist데이터 베이스 만들기.
 22.todolist 오류체크하기.
 

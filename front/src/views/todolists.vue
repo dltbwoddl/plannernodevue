@@ -1,5 +1,6 @@
 <template>
     <div>
+        <b-button v-on:click = "goback"><b-icon icon="arrow-left-square"></b-icon></b-button>
         <b-list-group class="mt-1" v-for="i in todolist" v-bind:key="i.id">
             <b-list-group-item><b-icon-dot></b-icon-dot>{{i.date}}{{i.do}}</b-list-group-item>
         </b-list-group>
@@ -18,6 +19,11 @@ export default {
     data: function(){
         return {
           shortgoal:window.location.pathname.split('/')[3]
+        }
+    },
+    methods:{
+      goback : function(){
+        return history.back();
         }
     }
 }
