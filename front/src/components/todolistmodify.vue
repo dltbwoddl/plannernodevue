@@ -1,6 +1,6 @@
 <template>
   <div>
-    <form :action="`http://localhost:3000/todolist/modify/${this.shortgoal_id}`" method="post">
+    <form :action="`http://localhost:3000/todolist/modify/${this.shortgoal}`" method="post">
     <b-input-group v-for="i in todolists" v-bind:key="i.id">
       <div :id="i.id">
           <input type="date" :name=i.id :value="i.date"> 
@@ -19,7 +19,7 @@ export default {
       data: function(){
         return {
           i:0,
-          shortgoal_id : window.location.pathname.split('/')[3]
+          shortgoal : window.location.pathname.split('/')[3]
           }
       },
     computed:{

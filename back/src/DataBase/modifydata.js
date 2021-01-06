@@ -87,6 +87,7 @@ module.exports = {
             });
         })
     },
+
     middlegoalmodify: function (req, res, longgoal_id) {
         const pool_1 = new pool();
         var chagedata = new Array();
@@ -164,7 +165,6 @@ module.exports = {
                             console.log(err);
                         });
                 }
-
                 pool_1.end();
             });
         })
@@ -208,15 +208,25 @@ module.exports = {
 
                 console.log(10000);
                 for (i in ret) {
-                    if (req.body[ret[i].id] != ret[i].middlegoal) {
+                    if (req.body[ret[i].id] != ret[i].shortgoal) {
                         var data = new Object()
                         data[ret[i].id] = req.body[ret[i].id]
+                        data['beforename'] = ret[i].shortgoal
                         chagedata.push(data)
                     }
                 }
+                console.log(chagedata);
+                console.log('shortgoallafasf : ',ret)
+                console.log(req.body)
+
                 function updatelonggoal(shorgoal_m, callback) {
+                    console.log("shortgoal_m : ",shorgoal_m,Object.values(shorgoal_m)[0],Object.keys(shorgoal_m)[0])
                     conn.queryAsync(`UPDATE shortgoal SET shortgoal = '${Object.values(shorgoal_m)[0]}' where id = ${Object.keys(shorgoal_m)[0]}`)
                         .then(ret => {
+                            var shortgoal_1 = Object.values(shorgoal_m)[1].replace(/(\s*)/g, "")
+                            var shortgoal_2 = Object.values(shorgoal_m)[0].replace(/(\s*)/g, "")
+                            conn.queryAsync(`RENAME TABLE ${shortgoal_1} TO ${shortgoal_2}`)
+                            .catch(err=>{console.log(err)})
                             callback(null)
                         }).catch(err => {
                             console.log(err);
@@ -227,6 +237,7 @@ module.exports = {
                     async.each(chagedata,
                         updatelonggoal,
                         function (err) {
+                            pool_1.end();
                             console.log(err);
                         });
                 }
@@ -250,8 +261,8 @@ module.exports = {
                             console.log(err);
                         });
                 }
-                pool_1.end();
             });
+            
         })
 
     },

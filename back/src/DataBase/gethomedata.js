@@ -80,7 +80,6 @@ module.exports = {
         })
     },
     shortgoaltodolist: function (req, res, shortgoal) {
-        console.log('shortgoa111l')
         const pool_1 = new pool();
         Promise.using(pool_1.connect(), conn => {
             conn.queryAsync(`SELECT * FROM ${shortgoal};`).then((ret) => {

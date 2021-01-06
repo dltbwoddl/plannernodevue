@@ -16,9 +16,7 @@ var modifydata = require('./DataBase/modifydata')
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 app.use(cors())
-
 const port = 3000;
-
 app.get('/longgoal', (req, res) => {
     gethomedata.longgoalget(req, res);
 });
@@ -35,11 +33,6 @@ app.get('/:longgoal_id', (req, res) => {
     var longgoal_id = req.params.longgoal_id;
     console.log('longgoal_id', longgoal_id)
     gethomedata.getmiddlegoal(req, res, longgoal_id);
-})
-app.get('/:longgoal_id/middlegoal_id',(req,res)=>{
-    var longgoal_id = req.params.longgoal_id;
-    var middlegoal = req.params.middlegoal;
-    console.log(longgoal_id,middlegoal)
 })
 
 //삭제하기 추가하기.
@@ -65,11 +58,14 @@ app.post('/shortgoal/modify/:middlegoal_id',(req,res)=>{
 });
 app.get('/todolist/:shortgoal',(req,res)=>{
     var shortgoal = req.params.shortgoal;
+    var shortgoal = shortgoal.replace(/(\s*)/g, "")
+
     console.log(shortgoal);
     gethomedata.shortgoaltodolist(req,res,shortgoal)
 })
 app.post('/todolist/modify/:shortgoal',(req,res)=>{
     var shortgoal = req.params.shortgoal;
+    var shortgoal = shortgoal.replace(/(\s*)/g, "")
     console.log(shortgoal);
     modifydata.todolistmodify(req,res,shortgoal);
 })
