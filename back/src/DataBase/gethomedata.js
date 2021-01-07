@@ -27,14 +27,16 @@ module.exports = {
     },
 
     todolistget: function (req, res) {
+        console.log("22222222222222")
         const pool_1 = new pool();
         Promise.using(pool_1.connect(), conn => {
             var shortgoallist = new Array();
             var todolist = new Array();
-            conn.queryAsync('SELECT * FROM shortGoal')
+            conn.queryAsync('SELECT * FROM shortgoal')
                 .then((ret) => {
                     for (i in ret) {
-                        shortgoallist.push(ret[i]['shortgoal'])
+                        shortgoallist.push(ret[i]['shortgoal'].replace(/(\s*)/g, ""))
+                        console.log('shortgoallist:',shortgoallist)
                     }
                 }).then(() => {
                     function gettodolist(shortgoal, callback) {
@@ -56,6 +58,8 @@ module.exports = {
                             pool_1.end();
                         })
                 })
+        }).catch(err=>{
+            console.log('fail')
         })
     },
     getmiddlegoal: function (req, res, longgoal_id) {

@@ -25,18 +25,50 @@ module.exports = {
                 for (i in Object.keys(ret)) {
                     pkey.push(ret[i].longgoal_id)
                 }
+                console.log(rkeys);
                 let difference = pkey.filter(x => !rkeys.includes(x));
                 console.log('difference : ', difference);
                 var deldata = `(${difference})`
                 console.log(deldata)
-                if (deldata.length != 2) {
-                    conn.queryAsync(`DELETE FROM longgoal WHERE longgoal_id in ${deldata}`)
-                        .then(delresult => {
-
-                        });
-                    console.log(ret);
-                    console.log(req.body);
-                }
+                var middlegoaldeldata =``
+                var shortgoaldeldata = ``
+                var deltable = ``
+                conn.queryAsync(`SELECT * FROM longgoal JOIN middlegoal on longgoal.longgoal_id = middlegoal.longgoal_id;`)
+                            .then((result)=>{
+                                var dellong = new Array();
+                                for(i in result){
+                                    if(difference.includes(result[i].longgoal_id)){
+                                        dellong.push(result[i].id)
+                                    }
+                                }
+                                middlegoaldeldata=`(${dellong})`
+                                console.log(middlegoaldeldata);
+                                conn.queryAsync(`SELECT * FROM middlegoal JOIN shortgoal on middlegoal.id = shortgoal.middelgoal_id;`)
+                                .then(shorres=>{
+                                    var delmid = new Array();
+                                    var delmidname = new Array();
+                                    for(i in shorres){
+                                        if(dellong.includes(shorres[i].middelgoal_id)){
+                                            delmid.push(shorres[i].id)
+                                            delmidname.push((shorres[i].shortgoal).replace(/(\s*)/g, ""))
+                                        }
+                                    }
+                                    shortgoaldeldata = `(${delmid})`
+                                    deltable = `${delmidname}`
+                                    console.log(deldata);
+                                    console.log(middlegoaldeldata);
+                                    console.log(shortgoaldeldata);
+                                    console.log(deltable);
+                                    var query = `DELETE FROM longgoal WHERE longgoal_id in ${deldata};`+
+                                    `DELETE FROM middlegoal WHERE longgoal_id in ${middlegoaldeldata};`+
+                                    `DELETE FROM shortgoal WHERE middelgoal_id in ${middlegoaldeldata};`+
+                                    `DROP TABLES ${deltable};`;
+                                    console.log(query)
+                                    conn.queryAsync(query).then(()=>{
+                                        console.log('sucesssssssssssssss')
+                                    })
+                                })
+                            });
 
 
                 for (i in ret) {
@@ -82,8 +114,6 @@ module.exports = {
                             console.log(err);
                         });
                 }
-
-                pool_1.end();
             });
         })
     },
