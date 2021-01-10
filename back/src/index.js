@@ -69,7 +69,10 @@ app.post('/todolist/modify/:shortgoal',(req,res)=>{
     console.log(shortgoal);
     modifydata.todolistmodify(req,res,shortgoal);
 })
-
+app.post('/habitmodify',(req,res)=>{
+    console.log(req.body)
+    modifydata.habitlistmodify(req,res)
+})
 app.listen(port, () => {
     console.log('success')
 })

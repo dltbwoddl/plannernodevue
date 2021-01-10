@@ -10,7 +10,7 @@ module.exports = {
     longgoalget: function (req, res) {
         const pool_1 = new pool();
         Promise.using(pool_1.connect(), conn => {
-            conn.queryAsync('SELECT * FROM LongGoal').then((ret) => {
+            conn.queryAsync('SELECT * FROM longgoal').then((ret) => {
                 console.log(ret)
                 res.json(ret)
             }).then(ret => { pool_1.end(); })
@@ -21,13 +21,13 @@ module.exports = {
         const pool_1 = new pool();
         Promise.using(pool_1.connect(), conn => {
             conn.queryAsync('SELECT * FROM habit').then((ret) => {
+                console.log(ret)
                 res.json(ret)
             }).then(ret => { pool_1.end(); })
         })
     },
 
     todolistget: function (req, res) {
-        console.log("22222222222222")
         const pool_1 = new pool();
         Promise.using(pool_1.connect(), conn => {
             var shortgoallist = new Array();
@@ -50,13 +50,15 @@ module.exports = {
                                 callback(null)
                             });
                     }
-                    async.each(shortgoallist,
+                    if(shortgoallist.length!=0){
+                        async.each(shortgoallist,
                         gettodolist,
                         function (err) {
                             console.log(todolist);
                             res.json(todolist);
                             pool_1.end();
                         })
+                    }
                 })
         }).catch(err=>{
             console.log('fail')

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-button v-on:click = "goback"><b-icon icon="arrow-left-square"></b-icon></b-button>
+    <b-button :href = "`/shortgoal/${this.shortgoal_id}`"><b-icon icon="arrow-left-square"></b-icon></b-button>
     <shortgoalmodifybutton/>
   </div>
 </template>
@@ -8,6 +8,11 @@
 <script>
 import shortgoalmodifybutton from '../components/shortgoalmodifybutton'
 export default {
+  data: function(){
+        return {
+          shortgoal_id:window.location.pathname.split('/')[3]
+          }
+    },
   components:{
       shortgoalmodifybutton
     },

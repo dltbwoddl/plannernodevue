@@ -9,6 +9,7 @@ import shortgoal from "../views/shortgoal.vue"
 import shortgoalmodify from "../views/shortgoalmodify.vue"
 import todolists from'../views/todolists'
 import todolistmodify from '../views/todolistmodify.vue'
+import habit from '../views/habit.vue'
 Vue.use(VueRouter)
 
 const routes = [
@@ -87,10 +88,18 @@ const routes = [
     name : todolists,
     component : todolists,
     beforeEnter:(to, from, next)=>{
-      console.log(100)
       var pathname = window.location.pathname.split('/');
       console.log(pathname[3])
       store.dispatch('getshortgoaltodolist',pathname[3]);
+      next();
+    }
+  },
+  {
+    path : '/habitmodify',
+    name : habit,
+    component : habit,
+    beforeEnter:(to,from, next)=>{
+      store.dispatch('gethabit')
       next();
     }
   }

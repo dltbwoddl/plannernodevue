@@ -399,5 +399,88 @@ module.exports = {
                 })
         })
 
+    },
+    habitlistmodify: function (req, res) {
+        const pool_1 = new pool();
+        var chagedata = new Array();
+        Promise.using(pool_1.connect(), conn => {
+            conn.queryAsync(`SELECT * FROM habit`).then((ret) => {
+                console.log(ret);
+                return ret
+            }).then(ret => {
+                var pkey = []
+                var rkey = Object.keys(req.body)
+                var rkeys = new Array();
+                for (i in rkey) {
+                    rkeys.push(parseInt(rkey[i]))
+                }
+                for (i in Object.keys(ret)) {
+                    pkey.push(ret[i].id)
+                }
+                console.log(req.body)
+                console.log('rkeys: ', rkeys);
+                console.log('pkey:', pkey);
+                let difference = pkey.filter(x => !rkeys.includes(x));
+                console.log('difference : ', difference);
+                var deldata = `(${difference})`
+                console.log(deldata)
+                if (deldata.length != 2) {
+                    conn.queryAsync(`DELETE FROM habit WHERE id in ${deldata}`)
+                        .then(delresult => {
+
+                        });
+                    console.log(ret);
+                    console.log(req.body);
+                }
+
+
+                for (i in ret) {
+                    if (req.body[ret[i].id] != ret[i].habit) {
+                        var data = new Object()
+                        data[ret[i].id] = req.body[ret[i].id]
+                        chagedata.push(data)
+                    }
+                }
+                function updatelonggoal(habitlist, callback) {
+                    conn.queryAsync(`UPDATE habit SET habit = '${Object.values(habitlist)[0]}' where id = ${Object.keys(habitlist)[0]}`)
+                        .then(ret => {
+                            callback(null)
+                        }).catch(err => {
+                            console.log(err);
+                            callback(null)
+                        });
+                }
+                if (chagedata.length != 0) {
+                    async.each(chagedata,
+                        updatelonggoal,
+                        function (err) {
+                            console.log(err);
+                        });
+                }
+
+                var plusdata = ``
+                for (i in Object.keys(req.body)) {
+                    if (Object.keys(ret).length != 0) {
+                        if (Object.keys(req.body)[i] > ret[Object.keys(ret).length - 1].id) {
+                            plusdata += ` ('${req.body[Object.keys(req.body)[i]]}'),`
+                        }
+                    } else {
+                        plusdata += ` ('${req.body[Object.keys(req.body)[i]]}'),`
+                    }
+                }
+                console.log('plusdata:', plusdata)
+                if (plusdata != 0) {
+                    conn.queryAsync(`INSERT INTO habit(habit) VALUES` + plusdata.slice(0, -1) + `;`)
+                        .then(ret => {
+                            console.log(ret)
+                        }).catch(err => {
+                            console.log(err);
+                        });
+                }
+                pool_1.end();
+            });
+        })
+
     }
+    
 }
