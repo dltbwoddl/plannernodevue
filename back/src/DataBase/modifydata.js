@@ -38,7 +38,7 @@ module.exports = {
                                 var dellong = new Array();
                                 for(i in result){
                                     if(difference.includes(result[i].longgoal_id)){
-                                        dellong.push(result[i].id)
+                                        dellong.push(result[i].longgoal_id)
                                     }
                                 }
                                 middlegoaldeldata=`(${dellong})`
@@ -200,8 +200,6 @@ module.exports = {
         })
 
     },
-
-
     shortgoalmodify: function (req, res, middlegoal_id) {
         const pool_1 = new pool();
         var chagedata = new Array();

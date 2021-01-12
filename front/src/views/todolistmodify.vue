@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-button :href = "`/todolist/sg/${this.shortgoalname}`"><b-icon icon="arrow-left-square"></b-icon></b-button>
+    <b-button :href = "`/todolist/sg/${longgoal_id}/${middlegoal_id}/${shortgoalname}`"><b-icon icon="arrow-left-square"></b-icon></b-button>
     <todolistmodify/>
   </div>
 </template>
@@ -10,7 +10,9 @@ import todolistmodify from '../components/todolistmodify'
 export default {
   data: function(){
         return {
-          shortgoalname:window.location.pathname.split('/')[3]
+          shortgoalname:window.location.pathname.split('/')[4],
+          longgoal_id:window.location.pathname.split('/')[2],
+          middlegoal_id:window.location.pathname.split('/')[3]
           }
     },
   components:{

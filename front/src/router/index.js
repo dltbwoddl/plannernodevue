@@ -45,17 +45,17 @@ const routes = [
     }
   },
   {
-    path :"/shortgoal/:middlegoal_id",
+    path :"/shortgoal/:longgoal_id/:middlegoal_id",
     name : 'shortgoal',
     component:shortgoal,
     beforeEnter:(to,from,next)=>{
       var pathname = window.location.pathname.split('/');
-      store.dispatch('getshortgoal', pathname[2])
+      store.dispatch('getshortgoal', pathname[3]);
       next();
     }
   },
   {
-    path : '/shortgoal/modify/:middlegoal_id',
+    path : '/shortgoalmodify/:longgoal_id/:middlegoal_id',
     name:'shortgoalmodify',
     component : shortgoalmodify,
     beforeEnter:(to,from, next)=>{
@@ -74,23 +74,22 @@ const routes = [
     }
   },
   {
-    path : '/todolist/modify/:shortgoal',
+    path : '/todolistmodify/:longgoal_id/:middlegoal_id/:shortgoal',
     name : todolistmodify,
     component : todolistmodify,
     beforeEnter:(to, from, next)=>{
       var pathname = window.location.pathname.split('/');
-      store.dispatch('getshortgoaltodolist',pathname[3]);
+      store.dispatch('getshortgoaltodolist',pathname[4]);
       next();
     }
   },
   {
-    path:'/todolist/sg/:shortgoal',
+    path:'/todolist/sg/:longgoal_id/:middlegoal_id/:shortgoal',
     name : todolists,
     component : todolists,
     beforeEnter:(to, from, next)=>{
       var pathname = window.location.pathname.split('/');
-      console.log(pathname[3])
-      store.dispatch('getshortgoaltodolist',pathname[3]);
+      store.dispatch('getshortgoaltodolist',pathname[5]);
       next();
     }
   },
