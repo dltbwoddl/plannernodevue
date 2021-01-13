@@ -35,32 +35,36 @@ module.exports = {
                 var deltable = ``
                 conn.queryAsync(`SELECT * FROM longgoal JOIN middlegoal on longgoal.longgoal_id = middlegoal.longgoal_id;`)
                             .then((result)=>{
+                                console.log(9999999999999)
+                                console.log(result)
                                 var dellong = new Array();
                                 for(i in result){
                                     if(difference.includes(result[i].longgoal_id)){
-                                        dellong.push(result[i].longgoal_id)
+                                        dellong.push(result[i].id)
                                     }
                                 }
                                 middlegoaldeldata=`(${dellong})`
                                 console.log(middlegoaldeldata);
                                 conn.queryAsync(`SELECT * FROM middlegoal JOIN shortgoal on middlegoal.id = shortgoal.middelgoal_id;`)
                                 .then(shorres=>{
+                                    console.log('shorres',shorres)
                                     var delmid = new Array();
                                     var delmidname = new Array();
                                     for(i in shorres){
                                         if(dellong.includes(shorres[i].middelgoal_id)){
-                                            delmid.push(shorres[i].id)
+                                            delmid.push(shorres[i].middlegoal_id)
                                             delmidname.push((shorres[i].shortgoal).replace(/(\s*)/g, ""))
                                         }
                                     }
                                     shortgoaldeldata = `(${delmid})`
                                     deltable = `${delmidname}`
-                                    console.log(deldata);
-                                    console.log(middlegoaldeldata);
-                                    console.log(shortgoaldeldata);
+                                    console.log('deldata:',deldata);
+                                    console.log('middlegoaldeldata:',middlegoaldeldata);
+                                    console.log('shortgoaldeldata:',shortgoaldeldata);
                                     console.log(deltable);
-                                    var query = `DELETE FROM longgoal WHERE longgoal_id in ${deldata};`+
-                                    `DELETE FROM middlegoal WHERE longgoal_id in ${middlegoaldeldata};`+
+                                    var query = 
+                                    `DELETE FROM longgoal WHERE longgoal_id in ${deldata};`+
+                                    `DELETE FROM middlegoal WHERE longgoal_id in ${deldata};`+
                                     `DELETE FROM shortgoal WHERE middelgoal_id in ${middlegoaldeldata};`+
                                     `DROP TABLES ${deltable};`;
                                     console.log(query)
@@ -300,13 +304,7 @@ module.exports = {
         console.log(req.body)
         console.log(100)
         Promise.using(pool_1.connect(), conn => {
-            conn.queryAsync(`SELECT table_name FROM information_schema.tables WHERE table_schema = 'plannerdb';`)
-                .then(tablenames => {
-                    // var tablelist = new Array();
-                    // for (i in tablenames) {
-                    //     tablelist.push(tablenames[i].TABLE_NAME);
-                    // }
-                    // console.log(tablelist.includes(`${shortgoal}`))
+                    console.log(100000000000);
                     conn.queryAsync(`SELECT * FROM ${shortgoal};`).then((ret) => {
                         console.log(ret);
                         return ret
@@ -338,25 +336,39 @@ module.exports = {
                             console.log(req.body);
                         }
                         // 데이터 변한곳
-                        console.log(10000);
-                        console.log(ret)
-                        console.log(req.body);
                         for (i in ret) {
+                            var data = new Object()
+                            data[ret[i].id]=new Array(ret[i].do,ret[i].date)
                             if (req.body[ret[i].id][1] != ret[i].do) {
-                                var data = new Object()
-                                console.log(req.body[ret[i].id][1], ret[i].do)
                                 data[ret[i].id] = req.body[ret[i].id]
-                                chagedata.push(data)
                             }
+                            var m
+                            var day
+                            var date = ret[i].date
+                            if (parseInt(date.getMonth()) < 9) {
+                                m = '0' + (date.getMonth() + 1)
+                            } else {
+                                m = date.getMonth() + 1
+                            }
+        
+                            if (parseInt(date.getDate()) < 9) {
+                                day = `0${date.getDate()}`
+                            } else {
+                                day = date.getDate()
+                            }
+                            var d = `${date.getFullYear()}-${m}-${day}`
+                            if(req.body[ret[i].id][0] != d){
+                                data[ret[i].id][1]=req.body[ret[i].id][0];
+                            }
+                            chagedata.push(data)
                         }
                         console.log('changedat: ', chagedata);
                         function updatelonggoal(todo, callback) {
-                            console.log(Object.values(todo));
-                            conn.queryAsync(`UPDATE ${shortgoal} SET do = '${Object.values(todo)[0][1]}', date = DATE_FORMAT('${Object.values(todo)[0][0]}',"%Y-%m-%d") where id = ${Object.keys(todo)[0]}`)
+                            conn.queryAsync(`UPDATE ${shortgoal} SET do = '${Object.values(todo)[0][0]}', date = DATE_FORMAT('${Object.values(todo)[0][1]}',"%Y-%m-%d") where id = ${Object.keys(todo)[0]}`)
                                 .then(ret => {
+                                    console.log('datachange success')
                                     callback(null)
                                 }).catch(err => {
-                                    console.log(err);
                                     callback(null)
                                 });
                         }
@@ -377,7 +389,7 @@ module.exports = {
                         var plusdata = ``
                         for (i in pdifference) {
                             console.log(req.body[pdifference[i]])
-                            plusdata += `('${req.body[pdifference[i]][0]}','${req.body[pdifference[i]][1]}'),`
+                            plusdata += `('${req.body[pdifference[i]][0]}',' ${req.body[pdifference[i]][1]}'),`
                         }
                         console.log('plusdata:', plusdata)
                         console.log(`INSERT INTO ${shortgoal}(date,do) VALUES` + plusdata.slice(0, -1) + `;`)
@@ -394,7 +406,6 @@ module.exports = {
                     }).catch((err) => {
                         console.log(err);
                     })
-                })
         })
 
     },

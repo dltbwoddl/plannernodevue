@@ -66,6 +66,7 @@ app.get('/todolist/:shortgoal',(req,res)=>{
 app.post('/todolist/modify/:shortgoal',(req,res)=>{
     var shortgoal = req.params.shortgoal;
     var shortgoal = shortgoal.replace(/(\s*)/g, "")
+    console.log(99999999)
     console.log(shortgoal);
     modifydata.todolistmodify(req,res,shortgoal);
 })

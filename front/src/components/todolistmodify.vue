@@ -19,7 +19,7 @@ export default {
       data: function(){
         return {
           i:0,
-          shortgoal : window.location.pathname.split('/')[3]
+          shortgoal : window.location.pathname.split('/')[4]
           }
       },
     computed:{

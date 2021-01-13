@@ -1,6 +1,6 @@
 <template>
     <div>
-        <b-button :href = "`/shortgoal/${middlegoal_id}/${longgoal_id}`"><b-icon icon="arrow-left-square"></b-icon></b-button>
+        <b-button :href = "`/shortgoal/${longgoal_id}/${middlegoal_id}`"><b-icon icon="arrow-left-square"></b-icon></b-button>
         <b-list-group class="mt-1" v-for="i in todolist" v-bind:key="i.id">
             <b-list-group-item><b-icon-dot></b-icon-dot>{{i.date}}{{i.do}}</b-list-group-item>
         </b-list-group>
