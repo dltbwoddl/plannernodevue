@@ -14,6 +14,9 @@ module.exports = {
                 console.log(ret)
                 res.json(ret)
             }).then(ret => { pool_1.end(); })
+                .catch(err => {
+                    console.log(err);
+                })
         })
     },
 
@@ -24,6 +27,9 @@ module.exports = {
                 console.log(ret)
                 res.json(ret)
             }).then(ret => { pool_1.end(); })
+                .catch(err => {
+                    console.log(err);
+                })
         })
     },
 
@@ -36,7 +42,7 @@ module.exports = {
                 .then((ret) => {
                     for (i in ret) {
                         shortgoallist.push(ret[i]['shortgoal'].replace(/(\s*)/g, ""))
-                        console.log('shortgoallist:',shortgoallist)
+                        console.log('shortgoallist:', shortgoallist)
                     }
                 }).then(() => {
                     function gettodolist(shortgoal, callback) {
@@ -50,18 +56,18 @@ module.exports = {
                                 callback(null)
                             });
                     }
-                    if(shortgoallist.length!=0){
+                    if (shortgoallist.length != 0) {
                         async.each(shortgoallist,
-                        gettodolist,
-                        function (err) {
-                            console.log(todolist);
-                            res.json(todolist);
-                            pool_1.end();
-                        })
+                            gettodolist,
+                            function (err) {
+                                console.log(todolist);
+                                res.json(todolist);
+                                pool_1.end();
+                            })
                     }
                 })
-        }).catch(err=>{
-            console.log('fail')
+        }).catch(err => {
+            console.log(err)
         })
     },
     getmiddlegoal: function (req, res, longgoal_id) {
@@ -71,7 +77,9 @@ module.exports = {
                 console.log(ret);
                 res.json(ret);
             }).then(ret => { pool_1.end(); })
-                .catch(err => { pool_1.end(); })
+                .catch(err => {
+                    console.log(err);
+                })
         })
 
     },
@@ -82,7 +90,9 @@ module.exports = {
                 console.log(ret);
                 res.json(ret);
             }).then(ret => { pool_1.end(); })
-                .catch(err => { pool_1.end(); })
+                .catch(err => {
+                    console.log(err);
+                })
         })
     },
     shortgoaltodolist: function (req, res, shortgoal) {
@@ -115,21 +125,8 @@ module.exports = {
                 console.log(ret);
                 res.json(ret);
             }).then(ret => { pool_1.end(); })
-                .catch(() => {
-                    console.log(`CREATE TABLE ${shortgoal}(
-            id int NOT NULL AUTO_INCREMENT PRIMARY KEY,
-            date datetime NOT NULL,
-            do varchar(60) NOT NULL
-        );`)
-                    conn.queryAsync(`CREATE TABLE ${shortgoal}(
-            id int NOT NULL AUTO_INCREMENT PRIMARY KEY,
-            date datetime NOT NULL,
-            do varchar(60) NOT NULL
-        );`)
-                })
-                .catch(err => {
-                    console.log(err);
-                    pool_1.end();
+                .catch((err) => {
+                    console.log(err)
                 })
         })
     }
