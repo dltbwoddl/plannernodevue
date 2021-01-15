@@ -10,9 +10,7 @@ const store = new Vuex.Store({
         habit:new Array(),
         todolist:new Array(),
         middlegoal:new Array(),
-        shortgoal:new Array(),
-        longgoal_id:0
-
+        shortgoal:new Array()
     },
     mutations: {
       mutatelonggoaldata(state,data){
